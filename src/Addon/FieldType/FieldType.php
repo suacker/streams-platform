@@ -231,6 +231,13 @@ class FieldType extends Addon
     protected $query = null;
 
     /**
+     * The duplicator class.
+     *
+     * @var null|string
+     */
+    protected $duplicator = null;
+
+    /**
      * The field type criteria.
      *
      * @var null|string
@@ -1133,6 +1140,37 @@ class FieldType extends Addon
     public function setSchema($schema)
     {
         $this->schema = $schema;
+
+        return $this;
+    }
+
+    /**
+     * Get the duplicator.
+     *
+     * @return FieldTypeDuplicator
+     */
+    public function getDuplicator()
+    {
+        if (!$this->duplicator) {
+            $this->duplicator = get_class($this) . 'Duplicator';
+        }
+
+        if (!class_exists($this->duplicator)) {
+            $this->duplicator = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeDuplicator';
+        }
+
+        return app()->make($this->duplicator, ['fieldType' => $this]);
+    }
+
+    /**
+     * Set the duplicator.
+     *
+     * @param $duplicator
+     * @return $this
+     */
+    public function setDuplicator($duplicator)
+    {
+        $this->duplicator = $duplicator;
 
         return $this;
     }

@@ -463,6 +463,13 @@ interface EntryInterface
     public function getAttributes();
 
     /**
+     * Duplicate the model.
+     *
+     * @return EntryInterface
+     */
+    public function duplicate();
+
+    /**
      * Cache a value in the
      * model's cache collection.
      *
